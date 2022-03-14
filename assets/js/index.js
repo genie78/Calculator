@@ -6,10 +6,20 @@ $(document).ready(function() {
         [1,2,3,"-"],
         [0,"C","=","+"]
     ];
-
+    var operationText = $('.operation-text');
+    var firstNum = $('.first-num');
+    var secondNum = $('.second-num');
     var operation = $('.operation');
     var answer = $('.answer');
     var buttonsDiv = $('.buttons-div');
+    var operationObj = {
+        "+": add = (x, y) => x + y,
+        "-": minus = (x, y) => x - y,
+        "*": multp = (x, y) => x * y,
+        "/": devide = (x, y) => x / y 
+    }
+    const doSome = (x, y, op) => op(x,y);
+ 
 
     for (let i = 0; i < calCulatorContent.length; i ++){
         var buttons = $('<div>');
@@ -29,16 +39,28 @@ $(document).ready(function() {
         }
     }
 
-
-
     $('.data-button').on('click', function() {
         var valueOfButton = $(this).attr('value');
         if (valueOfButton == 'C'){
             answer.empty();
+            firstNum.empty();
+            secondNum.empty();
             operation.empty();
-        } 
-
-        console.log($(this).attr('value'));
+        }else if (valueOfButton == '='){
+            let answ = doSome(parseInt(firstNum.text()), parseInt(secondNum.text()), operationObj[operation.text()] )
+            answer.text(answ);
+        }
+        else if ((operation.text() != "") && !(["+", "-", "/", "*"].includes(valueOfButton))){
+            secondNum.append(valueOfButton);
+        }
+        else if ((["+", "-", "/", "*"].includes(valueOfButton)) && (firstNum.text() == "")) {
+            alert('Please first write the number');
+        }
+        else if ((operation.text() == "") && !(["+", "-", "/", "*"].includes(valueOfButton))){
+            firstNum.append($(this).attr('value'));
+        }else if ((operation.text() == "") && (["+", "-", "/", "*"].includes(valueOfButton)) && (firstNum.text() != "")){
+            operation.text(valueOfButton);
+        }
     })
 
     // class Calculator {
@@ -67,7 +89,4 @@ $(document).ready(function() {
     // }
     
     // var calculator = new Calculator(calCulatorContent);
-
-
-
 })
