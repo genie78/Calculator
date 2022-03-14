@@ -5,6 +5,11 @@ div.main-div {
 button {
     width: 24%;
 }
+
+div.operation-div {
+    height: 90px;
+}
+
 @media screen and (max-width:768px) {
     div.main-div {
         width: 95vw;
